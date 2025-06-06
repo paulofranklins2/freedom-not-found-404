@@ -5,4 +5,4 @@ db.password: root
 game.title: FREEDOM NOT FOUND - 404
 
 show.hints: true
-max.retries: 3
+max.retries: 100

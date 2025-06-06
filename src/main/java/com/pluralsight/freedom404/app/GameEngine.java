@@ -19,12 +19,22 @@ public class GameEngine {
         ConsolePrinter.print(ConsolePrinter.center("You wake up in a digital prison..."));
         InputUtils.pause("");
 
-        CategorySelector selector = new CategorySelector(puzzleDAO);
-        String chosenCategory = selector.selectCategory();
+        boolean playAgain;
 
-        if (chosenCategory == null) return;
+        do {
+            CategorySelector selector = new CategorySelector(puzzleDAO);
+            String chosenCategory = selector.selectCategory();
 
-        List<Puzzle> puzzles = puzzleDAO.getPuzzlesByCategory(chosenCategory);
-        new PuzzleRunner(puzzles).run();
+            if (chosenCategory == null) return;
+
+            List<Puzzle> puzzles = puzzleDAO.getPuzzlesByCategory(chosenCategory);
+            new PuzzleRunner(puzzles).run(); // Run only once per session
+
+            String input = InputUtils.prompt("Play again? (yes/no)").trim().toLowerCase();
+            playAgain = input.equals("yes") || input.equals("y");
+
+        } while (playAgain);
+
+        ConsolePrinter.printTitle("Thanks for playing. Goodbye!");
     }
 }

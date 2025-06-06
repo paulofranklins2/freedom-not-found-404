@@ -1,5 +1,6 @@
 package com.pluralsight.freedom404.core;
 
+import com.pluralsight.freedom404.db.ConfigLoader;
 import com.pluralsight.freedom404.model.Puzzle;
 import com.pluralsight.freedom404.util.ConsolePrinter;
 import com.pluralsight.freedom404.util.InputUtils;
@@ -9,10 +10,25 @@ import java.util.List;
 public class PuzzleRunner {
 
     private final List<Puzzle> puzzles;
-    private int wrongAttempts = 0;
+    private int wrongAttempts;
 
     public PuzzleRunner(List<Puzzle> puzzles) {
         this.puzzles = puzzles;
+    }
+
+    public void startGameLoop() {
+        boolean playAgain;
+
+        do {
+            wrongAttempts = 0;
+            run();
+
+            String input = InputUtils.prompt("Play again? (yes/no)").trim().toLowerCase();
+            playAgain = input.equals("yes") || input.equals("y");
+
+        } while (playAgain);
+
+        ConsolePrinter.printTitle("Thanks for playing. Goodbye!");
     }
 
     public void run() {
@@ -29,7 +45,7 @@ public class PuzzleRunner {
             }
         }
 
-        ConsolePrinter.printTitle("Congratulations, you escaped the digital trap!");
+        ConsolePrinter.printTitle("🎉 Congratulations, you escaped the digital trap!");
     }
 
     private boolean solvePuzzle(Puzzle puzzle) {
@@ -45,7 +61,7 @@ public class PuzzleRunner {
             ConsolePrinter.printConsequence(puzzle.getConsequence());
             ConsolePrinter.printHint(puzzle.getHint());
 
-            if (wrongAttempts >= 3) return false;
+            if (wrongAttempts >= Integer.parseInt(ConfigLoader.get("max.retries"))) return false;
         }
     }
 }
