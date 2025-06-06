@@ -1,0 +1,8 @@
+db.url: jdbc:mariadb://localhost:3306/freedom404
+db.user: root
+db.password: root
+
+game.title: FREEDOM NOT FOUND - 404
+
+show.hints: true
+max.retries: 3

@@ -5,11 +5,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseManager {
-    private static final String URL = "jdbc:mariadb://localhost:3306/freedom404";
-    private static final String USER = "root";
-    private static final String PASSWORD = "root";
-
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+        String url = ConfigLoader.get("db.url");
+        String user = ConfigLoader.get("db.user");
+        String password = ConfigLoader.get("db.password");
+        return DriverManager.getConnection(url, user, password);
     }
 }
