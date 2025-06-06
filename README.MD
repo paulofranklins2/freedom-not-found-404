@@ -4,7 +4,7 @@
 
 _You wake up inside a locked room. Nothing around you makes sense. Every door is sealed by logic, language, and code. The walls whisper riddles, the floor hums with data, and the air tastes of encryption._
 
-Welcome to **FREEDOM NOT FOUND - 404**, a terminal-based Java puzzle game that challenges players to escape a digital prison by solving progressively harder puzzles — each room holding secrets, clues, and consequences. From SQL queries and logic riddles to number puzzles and ciphered text, every decision you make matters. There's no going back — only decoding your way forward.
+Welcome to **FREEDOM NOT FOUND - 404**, a terminal-based Java puzzle game that challenges players to escape a digital prison by solving progressively harder puzzles, each room holding secrets, clues, and consequences. From SQL queries and logic riddles to number puzzles and ciphered text, every decision you make matters. There's no going back, only decoding your way forward.
 
 ---
 
