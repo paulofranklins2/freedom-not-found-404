@@ -5,12 +5,9 @@ import com.pluralsight.freedom404.model.TextPuzzle;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class PuzzleDAO {
-    private List<Puzzle> puzzles;
+public class PuzzleDAO extends AbstractPuzzleRepository {
 
     public PuzzleDAO() {
         this.puzzles = loadAllPuzzles();
@@ -46,38 +43,4 @@ public class PuzzleDAO {
 
         return puzzles;
     }
-
-    public List<Puzzle> getPuzzlesByRoom(String roomLabel) {
-        return puzzles.stream()
-                .filter(p -> p.getRoomLabel().equalsIgnoreCase(roomLabel))
-                .collect(Collectors.toList());
-    }
-
-    public List<String> getAvailableRooms() {
-        return puzzles.stream()
-                .map(Puzzle::getRoomLabel)
-                .distinct()
-                .sorted()
-                .collect(Collectors.toList());
-    }
-
-    public List<String> getAvailableCategories() {
-        return puzzles.stream()
-                .map(p -> {
-                    String label = p.getRoomLabel();
-                    int index = label.lastIndexOf(" Room ");
-                    return (index != -1) ? label.substring(0, index) : label;
-                })
-                .distinct()
-                .sorted()
-                .collect(Collectors.toList());
-    }
-
-    public List<Puzzle> getPuzzlesByCategory(String category) {
-        return puzzles.stream()
-                .filter(p -> p.getRoomLabel().startsWith(category + " Room"))
-                .sorted(Comparator.comparing(Puzzle::getRoomLabel))
-                .collect(Collectors.toList());
-    }
 }
-

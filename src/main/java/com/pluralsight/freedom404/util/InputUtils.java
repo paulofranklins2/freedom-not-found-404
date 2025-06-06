@@ -24,7 +24,7 @@ public class InputUtils {
     }
 
     public static void pause(String message) {
-        if (message != null) {
+        if (!message.isBlank()) {
             System.out.println(message);
         }
         System.out.print("Press ENTER to continue ");

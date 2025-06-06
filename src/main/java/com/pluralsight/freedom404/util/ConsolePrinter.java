@@ -1,16 +1,16 @@
 package com.pluralsight.freedom404.util;
 
 public class ConsolePrinter {
+    private static final int formatingSize = 100;
 
     public static void printTitle(String title) {
         lineBreak();
-        System.out.println(ConsoleColors.BOLD + ConsoleColors.INFO + center(title.toUpperCase(), 60) + ConsoleColors.RESET);
+        System.out.println(ConsoleColors.BOLD + ConsoleColors.INFO + center(title.toUpperCase()) + ConsoleColors.RESET);
         lineBreak();
     }
 
-    public static void printWithBorder(String message) {
-        lineBreak();
-        System.out.println(ConsoleColors.INFO + "== " + message + " ==" + ConsoleColors.RESET);
+    public static void print(String message) {
+        System.out.println(ConsoleColors.INFO + message + ConsoleColors.RESET);
     }
 
     public static void printSuccess(String message) {
@@ -34,11 +34,11 @@ public class ConsolePrinter {
     }
 
     public static void lineBreak() {
-        System.out.println(ConsoleColors.INFO + "------------------------------------------------------------" + ConsoleColors.RESET);
+        System.out.println(ConsoleColors.INFO + "-".repeat(formatingSize) + ConsoleColors.RESET);
     }
 
-    private static String center(String text, int width) {
-        int padding = (width - text.length()) / 2;
+    public static String center(String text) {
+        int padding = (formatingSize - text.length()) / 2;
         return " ".repeat(Math.max(0, padding)) + text;
     }
 }
