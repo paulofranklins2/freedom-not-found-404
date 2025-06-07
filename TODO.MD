@@ -23,12 +23,21 @@
 ## UX / Console Polish
 - [x] Use consistent ConsolePrinter borders and alignment
 - [ ] Highlight wrong attempts with subtle warning tone
-- [ ] Add support for color-coded output if supported
+- [x] Add support for color-coded output if supported
 
 ## Stretch Goals
 - [ ] Build JavaFX GUI version
 - [ ] Multiplayer puzzle competition mode
 - [ ] Add achievements for solving specific themed rooms
+
+## New Ideas
+- [ ] Create unit tests for puzzle logic
+- [ ] Implement difficulty levels for puzzles
+- [ ] Option to skip intro animation via config
+- [ ] Provide Docker setup for database
+- [ ] Randomize puzzle order each session
+- [ ] Add command-line option for debug mode
+- [ ] Write integration tests for database connection
 
 ---
 
