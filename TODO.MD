@@ -4,7 +4,7 @@
 - [x] Puzzle category selector with input validation loop
 - [x] Room selector based on category
 - [x] Load puzzles dynamically from MariaDB
-- [x] Limit player retries (3 attempts max)
+- [x] Limit player retries (attempt count configurable via `config.yml`)
 - [x] Game over message on failed puzzle
 
 ## Enhancements

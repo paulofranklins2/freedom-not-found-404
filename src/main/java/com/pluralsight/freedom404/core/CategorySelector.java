@@ -18,21 +18,12 @@ public class CategorySelector {
         List<String> categories = puzzleDAO.getAvailableCategories();
 
         while (true) {
-            ConsolePrinter.lineBreak();
-            ConsolePrinter.print(ConsolePrinter.center("Available Puzzle Categories"));
-            ConsolePrinter.lineBreak();
-            for (int i = 0; i < categories.size(); i++) {
-                ConsolePrinter.print(String.format("%2d) %s", i + 1, categories.get(i)));
-            }
-            ConsolePrinter.lineBreak();
-
-            int selectedIndex = InputUtils.promptInt("Choose Category: ") - 1;
+            ConsolePrinter.print(ConsolePrinter.center("Available Puzzle Categories:"));
+            int selectedIndex = InputUtils.promptChoice("Choose Category", categories);
 
             if (selectedIndex >= 0 && selectedIndex < categories.size()) {
                 return categories.get(selectedIndex);
             }
-
-            ConsolePrinter.printConsequence("Invalid selection. Please try again.");
         }
     }
 }
