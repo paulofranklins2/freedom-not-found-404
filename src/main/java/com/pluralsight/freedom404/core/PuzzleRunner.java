@@ -45,7 +45,7 @@ public class PuzzleRunner {
             }
         }
 
-        ConsolePrinter.printTitle("🎉 Congratulations, you escaped the digital trap!");
+        ConsolePrinter.printTitle("Congratulations, you escaped the digital trap!");
     }
 
     private boolean solvePuzzle(Puzzle puzzle) {

@@ -2,18 +2,21 @@ package com.pluralsight.freedom404.util;
 
 import java.util.Scanner;
 
+// For colored console prompts
+import com.pluralsight.freedom404.util.ConsoleColors;
+
 public class InputUtils {
 
     private static final Scanner scanner = new Scanner(System.in);
 
     public static String prompt(String label) {
-        System.out.print(label + ": ");
+        System.out.print(ConsoleColors.PROMPT + label + ": " + ConsoleColors.RESET);
         return scanner.nextLine().trim();
     }
 
     public static int promptInt(String label) {
         while (true) {
-            System.out.print(label);
+            System.out.print(ConsoleColors.PROMPT + label + ConsoleColors.RESET);
             String input = scanner.nextLine();
             try {
                 return Integer.parseInt(input.trim());
@@ -27,7 +30,7 @@ public class InputUtils {
         if (!message.isBlank()) {
             System.out.println(message);
         }
-        System.out.print("Press ENTER to continue ");
+        System.out.print(ConsoleColors.PROMPT + "Press ENTER to continue " + ConsoleColors.RESET);
         scanner.nextLine();
     }
 }
