@@ -18,10 +18,13 @@ public class CategorySelector {
         List<String> categories = puzzleDAO.getAvailableCategories();
 
         while (true) {
-            ConsolePrinter.print(ConsolePrinter.center("Available Puzzle Categories:"));
+            ConsolePrinter.lineBreak();
+            ConsolePrinter.print(ConsolePrinter.center("Available Puzzle Categories"));
+            ConsolePrinter.lineBreak();
             for (int i = 0; i < categories.size(); i++) {
-                System.out.printf("[%d] %s%n", i + 1, categories.get(i));
+                ConsolePrinter.print(String.format("%2d) %s", i + 1, categories.get(i)));
             }
+            ConsolePrinter.lineBreak();
 
             int selectedIndex = InputUtils.promptInt("Choose Category: ") - 1;
 

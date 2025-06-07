@@ -1,7 +1,7 @@
 package com.pluralsight.freedom404.util;
 
 public class ConsolePrinter {
-    private static final int formatingSize = 100;
+    private static final int FORMATTING_WIDTH = 80;
 
     public static void printTitle(String title) {
         lineBreak();
@@ -34,11 +34,14 @@ public class ConsolePrinter {
     }
 
     public static void lineBreak() {
-        System.out.println(ConsoleColors.INFO + "-".repeat(formatingSize) + ConsoleColors.RESET);
+        System.out.println(ConsoleColors.INFO + "=".repeat(FORMATTING_WIDTH) + ConsoleColors.RESET);
     }
 
     public static String center(String text) {
-        int padding = (formatingSize - text.length()) / 2;
-        return " ".repeat(Math.max(0, padding)) + text;
+        int totalPadding = FORMATTING_WIDTH - text.length();
+        if (totalPadding <= 0) return text;
+        int left = totalPadding / 2;
+        int right = totalPadding - left;
+        return " ".repeat(left) + text + " ".repeat(right);
     }
 }
