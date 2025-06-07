@@ -19,17 +19,11 @@ public class CategorySelector {
 
         while (true) {
             ConsolePrinter.print(ConsolePrinter.center("Available Puzzle Categories:"));
-            for (int i = 0; i < categories.size(); i++) {
-                System.out.printf("[%d] %s%n", i + 1, categories.get(i));
-            }
-
-            int selectedIndex = InputUtils.promptInt("Choose Category: ") - 1;
+            int selectedIndex = InputUtils.promptChoice("Choose Category", categories);
 
             if (selectedIndex >= 0 && selectedIndex < categories.size()) {
                 return categories.get(selectedIndex);
             }
-
-            ConsolePrinter.printConsequence("Invalid selection. Please try again.");
         }
     }
 }

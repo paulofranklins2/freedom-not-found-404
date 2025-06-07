@@ -23,8 +23,7 @@ public class PuzzleRunner {
             wrongAttempts = 0;
             run();
 
-            String input = InputUtils.prompt("Play again? (yes/no)").trim().toLowerCase();
-            playAgain = input.equals("yes") || input.equals("y");
+            playAgain = InputUtils.promptYesNo("Play again? (yes/no)");
 
         } while (playAgain);
 

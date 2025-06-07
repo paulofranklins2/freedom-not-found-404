@@ -33,6 +33,17 @@ public class ConsolePrinter {
         System.out.println(ConsoleColors.QUESTION + message + ConsoleColors.RESET);
     }
 
+    /**
+     * Prints a numbered menu based on the provided options.
+     *
+     * @param options list of option labels to display
+     */
+    public static void printMenu(java.util.List<String> options) {
+        for (int i = 0; i < options.size(); i++) {
+            System.out.printf("[%d] %s%n", i + 1, options.get(i));
+        }
+    }
+
     public static void lineBreak() {
         System.out.println(ConsoleColors.INFO + "-".repeat(formatingSize) + ConsoleColors.RESET);
     }

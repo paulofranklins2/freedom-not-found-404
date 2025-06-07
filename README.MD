@@ -16,7 +16,7 @@ Welcome to **FREEDOM NOT FOUND - 404**, a terminal-based Java puzzle game that c
 - Replay System: Fail or escape? Choose to play again with new categories and rooms.
 - Lore + Story: Every room tells a story. Some inspire, some warn, and others mislead.
 - Database Integration: Puzzles are dynamically loaded from a MariaDB database.
-- Retry Limiter: Fail a puzzle three times and you may be stuck... forever.
+- Retry Limiter: Fail too many times (see `max.retries` in `config.yml`) and you may be stuck... forever.
 
 ---
 
@@ -38,7 +38,7 @@ Welcome to **FREEDOM NOT FOUND - 404**, a terminal-based Java puzzle game that c
 4. **Solve the Puzzle**
     - Input your answer.
     - Use the hint if you're stuck.
-    - Get it wrong 3 times, and the game locks you in that room... for good.
+    - Get it wrong too many times (as set in `config.yml`), and the game locks you in that room... for good.
 
 5. **Win or Lose**
     - Solve it? You advance.
