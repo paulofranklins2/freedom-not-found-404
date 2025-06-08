@@ -2,6 +2,8 @@ package com.pluralsight.freedom404.core;
 
 import com.pluralsight.freedom404.db.ConfigLoader;
 import com.pluralsight.freedom404.model.Puzzle;
+import com.pluralsight.freedom404.model.Score;
+import com.pluralsight.freedom404.db.ScoreDAO;
 import com.pluralsight.freedom404.util.ConsolePrinter;
 import com.pluralsight.freedom404.util.InputUtils;
 
@@ -10,10 +12,13 @@ import java.util.List;
 public class PuzzleRunner {
 
     private final List<Puzzle> puzzles;
+    private final String username;
     private int wrongAttempts;
+    private final ScoreDAO scoreDAO = new ScoreDAO();
 
-    public PuzzleRunner(List<Puzzle> puzzles) {
+    public PuzzleRunner(List<Puzzle> puzzles, String username) {
         this.puzzles = puzzles;
+        this.username = username;
     }
 
     public void startGameLoop() {
@@ -48,14 +53,27 @@ public class PuzzleRunner {
     }
 
     private boolean solvePuzzle(Puzzle puzzle) {
+        int attemptsForPuzzle = 0;
+        long start = System.currentTimeMillis();
         while (true) {
             String input = InputUtils.prompt("Answer");
 
             if (puzzle.checkAnswer(input)) {
                 ConsolePrinter.printSuccess(puzzle.getSuccessMessage());
+
+                if (username != null) {
+                    Score score = new Score();
+                    score.setUsername(username);
+                    score.setPuzzleId(puzzle.getId());
+                    score.setCompletionTime((System.currentTimeMillis() - start) / 1000.0);
+                    score.setWrongAnswers(attemptsForPuzzle);
+                    scoreDAO.upsertScore(score);
+                }
+
                 return true;
             }
 
+            attemptsForPuzzle++;
             wrongAttempts++;
             ConsolePrinter.printConsequence(puzzle.getConsequence());
             ConsolePrinter.printHint(puzzle.getHint());

@@ -15,3 +15,13 @@ CREATE TABLE IF NOT EXISTS puzzles
     consequence     TEXT,
     success_message TEXT
 );
+
+CREATE TABLE IF NOT EXISTS scores
+(
+    username        VARCHAR(100) NOT NULL,
+    puzzle_id       INT          NOT NULL,
+    completion_time DOUBLE       NOT NULL,
+    wrong_answers   INT          NOT NULL,
+    PRIMARY KEY (username, puzzle_id),
+    FOREIGN KEY (puzzle_id) REFERENCES puzzles(id)
+);

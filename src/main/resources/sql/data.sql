@@ -95,3 +95,7 @@ VALUES ('SQL Count Function', 'SQL', 'Which aggregate function returns the numbe
 
 INSERT INTO puzzles (name, type, prompt, answer, hint, room_label, story_intro, consequence, success_message)
 VALUES ('SQL Join Riddle', 'SQL', 'What keyword combines rows from two tables based on a related column?', 'JOIN', 'It links tables together.', 'SQL Room 55', 'Tables hover side by side.', 'Rows drift apart meaninglessly.', 'The tables lock together seamlessly.');
+
+-- Sample scores
+INSERT INTO scores (username, puzzle_id, completion_time, wrong_answers)
+VALUES ('demo', 1, 45.2, 1);

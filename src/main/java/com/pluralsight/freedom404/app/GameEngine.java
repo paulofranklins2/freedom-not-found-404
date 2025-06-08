@@ -19,6 +19,7 @@ public class GameEngine {
         ConsolePrinter.print(ConsolePrinter.center("You wake up in a digital prison..."));
         InputUtils.pause("");
 
+        String username = promptUsername();
         boolean playAgain;
 
         do {
@@ -28,12 +29,24 @@ public class GameEngine {
             if (chosenCategory == null) return;
 
             List<Puzzle> puzzles = puzzleDAO.getPuzzlesByCategory(chosenCategory);
-            new PuzzleRunner(puzzles).run(); // Run only once per session
+            new PuzzleRunner(puzzles, username).run(); // Run only once per session
 
             playAgain = InputUtils.promptYesNo("Play again? (yes/no)");
 
         } while (playAgain);
 
         ConsolePrinter.printTitle("Thanks for playing. Goodbye!");
+    }
+
+    private String promptUsername() {
+        java.util.List<String> options = java.util.Arrays.asList(
+                "Play as Guest",
+                "Enter Username"
+        );
+        int choice = InputUtils.promptChoice("Select option", options);
+        if (choice == 1) {
+            return InputUtils.prompt("Username");
+        }
+        return null;
     }
 }
