@@ -2,11 +2,10 @@ package com.pluralsight.freedom404.app;
 
 import com.pluralsight.freedom404.core.CategorySelector;
 import com.pluralsight.freedom404.core.PuzzleRunner;
+import com.pluralsight.freedom404.core.ScoreService;
 import com.pluralsight.freedom404.db.ConfigLoader;
 import com.pluralsight.freedom404.db.PuzzleDAO;
-import com.pluralsight.freedom404.db.ScoreDAO;
 import com.pluralsight.freedom404.model.Puzzle;
-import com.pluralsight.freedom404.model.Score;
 import com.pluralsight.freedom404.util.ConsolePrinter;
 import com.pluralsight.freedom404.util.InputUtils;
 
@@ -15,11 +14,11 @@ import java.util.List;
 public class GameEngine {
 
     private final PuzzleDAO puzzleDAO = new PuzzleDAO();
-    private final ScoreDAO scoreDAO = new ScoreDAO();
+    private final ScoreService scoreService = new ScoreService();
 
     public void start() {
         showIntro();
-        String username = handleLogin();
+        String username = handleInitialMenu();
         runGameLoop(username);
         ConsolePrinter.printTitle("Thanks for playing. Goodbye!");
     }
@@ -30,15 +29,26 @@ public class GameEngine {
         InputUtils.pause("");
     }
 
-    private String handleLogin() {
-        String username = promptUsername();
-        if (username != null) {
-            boolean view = InputUtils.promptYesNo("View your saved scores? (yes/no)");
-            if (view) {
-                printUserScores(username);
+    private String handleInitialMenu() {
+        while (true) {
+            int choice = InputUtils.promptChoice("Select option", java.util.Arrays.asList(
+                    "Play as Guest",
+                    "Enter Username",
+                    "View Global Scores"));
+
+            if (choice == 0) {
+                return null;
+            } else if (choice == 1) {
+                String username = InputUtils.prompt("Username");
+                boolean view = InputUtils.promptYesNo("View your saved scores? (yes/no)");
+                if (view) {
+                    scoreService.printUserScores(username, puzzleDAO);
+                }
+                return username;
+            } else if (choice == 2) {
+                scoreService.printGlobalLeaderboard(puzzleDAO.getAvailableCategories());
             }
         }
-        return username;
     }
 
     private void runGameLoop(String username) {
@@ -55,32 +65,5 @@ public class GameEngine {
             playAgain = InputUtils.promptYesNo("Play again? (yes/no)");
 
         } while (playAgain);
-    }
-
-    private String promptUsername() {
-        List<String> options = java.util.Arrays.asList(
-                "Play as Guest",
-                "Enter Username"
-        );
-        int choice = InputUtils.promptChoice("Select option", options);
-        if (choice == 1) {
-            return InputUtils.prompt("Username");
-        }
-        return null;
-    }
-
-    private void printUserScores(String username) {
-        List<Score> scores = scoreDAO.getScoresByUser(username);
-        if (scores.isEmpty()) {
-            ConsolePrinter.printInfo("No scores found for " + username + ".");
-            return;
-        }
-        ConsolePrinter.printInfo("Saved Scores:");
-        for (Score s : scores) {
-            Puzzle p = puzzleDAO.getPuzzleById(s.getPuzzleId());
-            String label = (p != null) ? p.getRoomLabel() : "Puzzle " + s.getPuzzleId();
-            ConsolePrinter.print(String.format("%s - %.2f sec, %d wrong", label, s.getCompletionTime(), s.getWrongAnswers()));
-        }
-        ConsolePrinter.lineBreak();
     }
 }

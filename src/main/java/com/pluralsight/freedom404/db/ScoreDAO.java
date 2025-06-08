@@ -2,7 +2,10 @@ package com.pluralsight.freedom404.db;
 
 import com.pluralsight.freedom404.model.Score;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,6 +111,36 @@ public class ScoreDAO {
             }
         } catch (SQLException e) {
             System.err.println("Error retrieving leaderboard: " + e.getMessage());
+        }
+        return scores;
+    }
+
+
+    /**
+     * Retrieve a leaderboard across all puzzles in a category.
+     */
+    public List<Score> getCategoryLeaderboard(String category, int limit) {
+        String sql = "SELECT s.username, MIN(s.completion_time) AS completion_time, " +
+                "MIN(s.wrong_answers) AS wrong_answers " +
+                "FROM scores s JOIN puzzles p ON s.puzzle_id = p.id " +
+                "WHERE p.room_label LIKE CONCAT(?, ' Room %') " +
+                "GROUP BY s.username ORDER BY completion_time ASC, wrong_answers ASC LIMIT ?";
+        List<Score> scores = new ArrayList<>();
+        try (Connection conn = DatabaseManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, category);
+            stmt.setInt(2, limit);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Score score = new Score();
+                    score.setUsername(rs.getString("username"));
+                    score.setCompletionTime(rs.getDouble("completion_time"));
+                    score.setWrongAnswers(rs.getInt("wrong_answers"));
+                    scores.add(score);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving category leaderboard: " + e.getMessage());
         }
         return scores;
     }

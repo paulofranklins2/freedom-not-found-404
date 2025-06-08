@@ -26,22 +26,38 @@ public class ScoreService {
     public void printBestScore(String username, int puzzleId) {
         Score best = scoreDAO.getBestScore(username, puzzleId);
         if (best != null) {
-            ConsolePrinter.printInfo(String.format(
-                    "Best score: %.2f sec, %d wrong answers",
-                    best.getCompletionTime(), best.getWrongAnswers()));
+            ConsolePrinter.printInfo(String.format("Best score: %.2f sec, %d wrong answers", best.getCompletionTime(), best.getWrongAnswers()));
         }
     }
 
     public void printLeaderboard(Puzzle puzzle) {
         List<Score> top = scoreDAO.getLeaderboard(puzzle.getId(), 5);
-        if (top.isEmpty()) {
+        if (!top.isEmpty()) {
+            ConsolePrinter.printScoreboard("Top players", top);
+        }
+    }
+
+    public void printUserScores(String username, com.pluralsight.freedom404.db.PuzzleDAO puzzleDAO) {
+        List<Score> scores = scoreDAO.getScoresByUser(username);
+        if (scores.isEmpty()) {
+            ConsolePrinter.printInfo("No scores found for " + username + ".");
             return;
         }
-        ConsolePrinter.printInfo("Top players:");
-        for (int i = 0; i < top.size(); i++) {
-            Score s = top.get(i);
-            ConsolePrinter.print(String.format("%d. %s - %.2f sec, %d wrong",
-                    i + 1, s.getUsername(), s.getCompletionTime(), s.getWrongAnswers()));
+        for (Score s : scores) {
+            Puzzle p = puzzleDAO.getPuzzleById(s.getPuzzleId());
+            String label = (p != null) ? p.getRoomLabel() : "Puzzle " + s.getPuzzleId();
+            ConsolePrinter.print(String.format("%s - %.2f sec, %d wrong", label, s.getCompletionTime(), s.getWrongAnswers()));
+        }
+        ConsolePrinter.lineBreak();
+    }
+
+    public void printGlobalLeaderboard(java.util.List<String> categories) {
+        ConsolePrinter.printTitle("Global Scores");
+        for (String category : categories) {
+            List<Score> top = scoreDAO.getCategoryLeaderboard(category, 5);
+            if (!top.isEmpty()) {
+                ConsolePrinter.printScoreboard(category, top);
+            }
         }
     }
 }

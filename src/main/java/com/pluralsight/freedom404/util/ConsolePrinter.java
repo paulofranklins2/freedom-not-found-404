@@ -44,6 +44,19 @@ public class ConsolePrinter {
         }
     }
 
+    /**
+     * Nicely formatted scoreboard output.
+     */
+    public static void printScoreboard(String heading, java.util.List<com.pluralsight.freedom404.model.Score> scores) {
+        printTitle(heading);
+        for (int i = 0; i < scores.size(); i++) {
+            com.pluralsight.freedom404.model.Score s = scores.get(i);
+            System.out.printf("%d. %-15s %7.2f sec %d wrong%n",
+                    i + 1, s.getUsername(), s.getCompletionTime(), s.getWrongAnswers());
+        }
+        lineBreak();
+    }
+
     public static void lineBreak() {
         System.out.println(ConsoleColors.INFO + "=".repeat(FORMATTING_WIDTH) + ConsoleColors.RESET);
     }
