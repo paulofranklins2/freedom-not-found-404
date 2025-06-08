@@ -45,12 +45,20 @@ public class ScoreService {
             ConsolePrinter.printInfo("No scores found for " + username + ".");
             return;
         }
-        for (Score s : scores) {
+        java.util.List<String[]> rows = new java.util.ArrayList<>();
+        for (int i = 0; i < scores.size(); i++) {
+            Score s = scores.get(i);
             Puzzle p = puzzleDAO.getPuzzleById(s.getPuzzleId());
             String label = (p != null) ? p.getRoomLabel() : "Puzzle " + s.getPuzzleId();
-            ConsolePrinter.print(String.format("%s - %.2f sec, %d wrong", label, s.getCompletionTime(), s.getWrongAnswers()));
+            rows.add(new String[]{
+                    "#" + (i + 1),
+                    label,
+                    ConsolePrinter.formatTime(s.getCompletionTime()),
+                    String.valueOf(s.getWrongAnswers())
+            });
         }
-        ConsolePrinter.lineBreak();
+        String[] headers = {"POSITION", "PUZZLE", "TIME", "WRONG ANSWERS"};
+        ConsolePrinter.printTable(username + "'s Scores", headers, rows);
     }
 
     /**
