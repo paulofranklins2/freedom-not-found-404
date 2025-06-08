@@ -1,0 +1,8 @@
+# Local overrides for database connection and other settings.
+# Copy this file to config.local.yml and customize as needed.
+# It is excluded from version control by .gitignore.
+#
+# Example:
+# db.url: jdbc:mariadb://localhost:3306/freedom404
+# db.user: myuser
+# db.password: mysecret

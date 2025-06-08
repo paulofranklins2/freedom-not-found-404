@@ -37,4 +37,4 @@ build/
 ### Mac OS ###
 .DS_Store
 /.idea/
-/src/main/resources/sql/config.yml
+/src/main/resources/config.local.yml

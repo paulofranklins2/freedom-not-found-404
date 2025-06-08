@@ -74,3 +74,9 @@ Welcome to **FREEDOM NOT FOUND - 404**, a terminal-based Java puzzle game that c
     - Faction-based logic puzzles and gear stats riddles.
 - **GIT & Programming**
     - Commit message riddles, branching puzzles, and syntax validation games.
+
+---
+
+## Local Configuration
+
+Create a file named `src/main/resources/config.local.yml` to override the default settings in `config.yml`. This file is ignored by Git so your local database credentials remain private. A template named `config.local.example.yml` is provided as a starting point.

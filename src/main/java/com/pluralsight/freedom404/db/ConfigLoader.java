@@ -17,6 +17,14 @@ public class ConfigLoader {
         } catch (IOException e) {
             throw new RuntimeException("Error loading config.yml", e);
         }
+        // Optionally load overrides from config.local.yml if present.
+        try (InputStream local = ConfigLoader.class.getClassLoader().getResourceAsStream("config.local.yml")) {
+            if (local != null) {
+                properties.load(local);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Error loading config.local.yml", e);
+        }
     }
 
     public static String get(String key) {
