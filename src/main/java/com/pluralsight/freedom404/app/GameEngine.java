@@ -2,17 +2,20 @@ package com.pluralsight.freedom404.app;
 
 import com.pluralsight.freedom404.core.CategorySelector;
 import com.pluralsight.freedom404.core.PuzzleRunner;
+import com.pluralsight.freedom404.db.ConfigLoader;
 import com.pluralsight.freedom404.db.PuzzleDAO;
+import com.pluralsight.freedom404.db.ScoreDAO;
 import com.pluralsight.freedom404.model.Puzzle;
+import com.pluralsight.freedom404.model.Score;
 import com.pluralsight.freedom404.util.ConsolePrinter;
 import com.pluralsight.freedom404.util.InputUtils;
-import com.pluralsight.freedom404.db.ConfigLoader;
 
 import java.util.List;
 
 public class GameEngine {
 
     private final PuzzleDAO puzzleDAO = new PuzzleDAO();
+    private final ScoreDAO scoreDAO = new ScoreDAO();
 
     public void start() {
         ConsolePrinter.printTitle(ConfigLoader.get("game.title"));
@@ -20,6 +23,14 @@ public class GameEngine {
         InputUtils.pause("");
 
         String username = promptUsername();
+
+        if (username != null) {
+            boolean view = InputUtils.promptYesNo("View your saved scores? (yes/no)");
+            if (view) {
+                printUserScores(username);
+            }
+        }
+
         boolean playAgain;
 
         do {
@@ -39,7 +50,7 @@ public class GameEngine {
     }
 
     private String promptUsername() {
-        java.util.List<String> options = java.util.Arrays.asList(
+        List<String> options = java.util.Arrays.asList(
                 "Play as Guest",
                 "Enter Username"
         );
@@ -48,5 +59,20 @@ public class GameEngine {
             return InputUtils.prompt("Username");
         }
         return null;
+    }
+
+    private void printUserScores(String username) {
+        List<Score> scores = scoreDAO.getScoresByUser(username);
+        if (scores.isEmpty()) {
+            ConsolePrinter.printInfo("No scores found for " + username + ".");
+            return;
+        }
+        ConsolePrinter.printInfo("Saved Scores:");
+        for (Score s : scores) {
+            Puzzle p = puzzleDAO.getPuzzleById(s.getPuzzleId());
+            String label = (p != null) ? p.getRoomLabel() : "Puzzle " + s.getPuzzleId();
+            ConsolePrinter.print(String.format("%s - %.2f sec, %d wrong", label, s.getCompletionTime(), s.getWrongAnswers()));
+        }
+        ConsolePrinter.lineBreak();
     }
 }

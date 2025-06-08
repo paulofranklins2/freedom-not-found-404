@@ -28,4 +28,13 @@ public abstract class AbstractPuzzleRepository {
                 .sorted(Comparator.comparing(Puzzle::getRoomLabel))
                 .collect(Collectors.toList());
     }
+
+    public Puzzle getPuzzleById(int id) {
+        for (Puzzle p : puzzles) {
+            if (p.getId() == id) {
+                return p;
+            }
+        }
+        return null;
+    }
 }

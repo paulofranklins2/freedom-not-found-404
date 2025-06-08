@@ -61,6 +61,31 @@ public class ScoreDAO {
     }
 
     /**
+     * Retrieve all scores for a given user.
+     */
+    public List<Score> getScoresByUser(String username) {
+        String sql = "SELECT * FROM scores WHERE username = ? ORDER BY puzzle_id";
+        List<Score> scores = new ArrayList<>();
+        try (Connection conn = DatabaseManager.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Score score = new Score();
+                    score.setUsername(rs.getString("username"));
+                    score.setPuzzleId(rs.getInt("puzzle_id"));
+                    score.setCompletionTime(rs.getDouble("completion_time"));
+                    score.setWrongAnswers(rs.getInt("wrong_answers"));
+                    scores.add(score);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving scores: " + e.getMessage());
+        }
+        return scores;
+    }
+
+    /**
      * Retrieve a leaderboard for a puzzle ordered by best completion time and fewest wrong answers.
      */
     public List<Score> getLeaderboard(int puzzleId, int limit) {
