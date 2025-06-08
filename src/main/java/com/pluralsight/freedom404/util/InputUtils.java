@@ -36,7 +36,7 @@ public class InputUtils {
             try {
                 return Integer.parseInt(input);
             } catch (NumberFormatException e) {
-                System.out.println("Invalid number. Try again.");
+                ConsolePrinter.printConsequence("Invalid number. Try again.");
             }
         }
     }
