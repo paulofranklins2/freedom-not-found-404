@@ -18,21 +18,31 @@ public class GameEngine {
     private final ScoreDAO scoreDAO = new ScoreDAO();
 
     public void start() {
+        showIntro();
+        String username = handleLogin();
+        runGameLoop(username);
+        ConsolePrinter.printTitle("Thanks for playing. Goodbye!");
+    }
+
+    private void showIntro() {
         ConsolePrinter.printTitle(ConfigLoader.get("game.title"));
         ConsolePrinter.print(ConsolePrinter.center("You wake up in a digital prison..."));
         InputUtils.pause("");
+    }
 
+    private String handleLogin() {
         String username = promptUsername();
-
         if (username != null) {
             boolean view = InputUtils.promptYesNo("View your saved scores? (yes/no)");
             if (view) {
                 printUserScores(username);
             }
         }
+        return username;
+    }
 
+    private void runGameLoop(String username) {
         boolean playAgain;
-
         do {
             CategorySelector selector = new CategorySelector(puzzleDAO);
             String chosenCategory = selector.selectCategory();
@@ -40,13 +50,11 @@ public class GameEngine {
             if (chosenCategory == null) return;
 
             List<Puzzle> puzzles = puzzleDAO.getPuzzlesByCategory(chosenCategory);
-            new PuzzleRunner(puzzles, username).run(); // Run only once per session
+            new PuzzleRunner(puzzles, username).run();
 
             playAgain = InputUtils.promptYesNo("Play again? (yes/no)");
 
         } while (playAgain);
-
-        ConsolePrinter.printTitle("Thanks for playing. Goodbye!");
     }
 
     private String promptUsername() {
