@@ -26,7 +26,9 @@ public class ScoreService {
     public void printBestScore(String username, int puzzleId) {
         Score best = scoreDAO.getBestScore(username, puzzleId);
         if (best != null) {
-            ConsolePrinter.printInfo(String.format("Best score: %.2f sec, %d wrong answers", best.getCompletionTime(), best.getWrongAnswers()));
+            ConsolePrinter.printInfo(String.format(
+                    "Best score: %.2f sec, %d wrong answers",
+                    best.getCompletionTime(), best.getWrongAnswers()));
         }
     }
 
@@ -51,6 +53,9 @@ public class ScoreService {
         ConsolePrinter.lineBreak();
     }
 
+    /**
+     * Display the top players for each puzzle theme using aggregated times.
+     */
     public void printGlobalLeaderboard(java.util.List<String> categories) {
         ConsolePrinter.printTitle("Global Scores");
         for (String category : categories) {

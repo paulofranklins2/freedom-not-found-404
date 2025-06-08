@@ -116,15 +116,20 @@ public class ScoreDAO {
     }
 
 
+
     /**
-     * Retrieve a leaderboard across all puzzles in a category.
+     * Retrieve a leaderboard across all puzzles in a category. Scores are
+     * aggregated so each player's time represents the sum of their best times
+     * for the puzzles within that theme.
      */
     public List<Score> getCategoryLeaderboard(String category, int limit) {
-        String sql = "SELECT s.username, MIN(s.completion_time) AS completion_time, " +
-                "MIN(s.wrong_answers) AS wrong_answers " +
+        String sql = "SELECT s.username, " +
+                "SUM(s.completion_time) AS completion_time, " +
+                "SUM(s.wrong_answers)   AS wrong_answers " +
                 "FROM scores s JOIN puzzles p ON s.puzzle_id = p.id " +
                 "WHERE p.room_label LIKE CONCAT(?, ' Room %') " +
-                "GROUP BY s.username ORDER BY completion_time ASC, wrong_answers ASC LIMIT ?";
+                "GROUP BY s.username " +
+                "ORDER BY completion_time ASC, wrong_answers ASC LIMIT ?";
         List<Score> scores = new ArrayList<>();
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

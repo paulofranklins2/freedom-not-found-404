@@ -11,7 +11,7 @@
 - [ ] Add ASCII-based intro animation
 - [ ] Create save game functionality
 - [ ] Expand story intros and consequences for each room
-- [ ] Implement leaderboard/local score tracking
+- [x] Implement leaderboard/local score tracking
 - [ ] Create visual puzzle editor (external tool)
 
 ## Database Tasks

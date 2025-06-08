@@ -2,12 +2,12 @@ package com.pluralsight.freedom404.app;
 
 import com.pluralsight.freedom404.core.CategorySelector;
 import com.pluralsight.freedom404.core.PuzzleRunner;
-import com.pluralsight.freedom404.core.ScoreService;
 import com.pluralsight.freedom404.db.ConfigLoader;
 import com.pluralsight.freedom404.db.PuzzleDAO;
 import com.pluralsight.freedom404.model.Puzzle;
 import com.pluralsight.freedom404.util.ConsolePrinter;
 import com.pluralsight.freedom404.util.InputUtils;
+import com.pluralsight.freedom404.core.ScoreService;
 
 import java.util.List;
 

@@ -17,6 +17,7 @@ Welcome to **FREEDOM NOT FOUND - 404**, a terminal-based Java puzzle game that c
 - Lore + Story: Every room tells a story. Some inspire, some warn, and others mislead.
 - Database Integration: Puzzles are dynamically loaded from a MariaDB database.
 - Retry Limiter: Fail too many times (see `max.retries` in `config.yml`) and you may be stuck... forever.
+- Global Leaderboards: Option 3 on the start menu shows the top players for each puzzle theme, using total game time and wrong answers.
 
 ---
 
