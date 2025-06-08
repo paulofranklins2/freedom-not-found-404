@@ -81,3 +81,15 @@ Welcome to **FREEDOM NOT FOUND - 404**, a terminal-based Java puzzle game that c
 ## Local Configuration
 
 Create a file named `src/main/resources/config.local.yml` to override the default settings in `config.yml`. This file is ignored by Git so your local database credentials remain private. A template named `config.local.example.yml` is provided as a starting point.
+
+## Docker Setup
+
+A `docker-compose.yml` is provided to spin up a MariaDB instance for testing.
+It exposes port `3306` and uses `root`/`root` as the default credentials.
+Run the following command to start the database:
+
+```bash
+docker compose up -d
+```
+
+The database will create a `freedom404` schema on startup and persist data in a local Docker volume named `db_data`.
