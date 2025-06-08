@@ -13,14 +13,16 @@ public class ScoreDAO {
 
     /**
      * Insert or update a player's score for a puzzle. If a record already exists
-     * for the given username and puzzle, it is updated only if the new
-     * completion time is better. Wrong answer count is always updated.
+     * for the given username and puzzle, each field is updated only if the new
+     * value is better (smaller). This prevents worse times or higher wrong
+     * answer counts from overwriting a player's previous best.
      */
     public void upsertScore(Score score) {
         String sql = "INSERT INTO scores (username, puzzle_id, completion_time, wrong_answers) " +
                 "VALUES (?, ?, ?, ?) " +
-                "ON DUPLICATE KEY UPDATE completion_time = IF(VALUES(completion_time) < completion_time, VALUES(completion_time), completion_time), " +
-                "wrong_answers = VALUES(wrong_answers)";
+                "ON DUPLICATE KEY UPDATE " +
+                "completion_time = LEAST(completion_time, VALUES(completion_time)), " +
+                "wrong_answers   = LEAST(wrong_answers, VALUES(wrong_answers))";
         try (Connection conn = DatabaseManager.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, score.getUsername());

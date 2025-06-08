@@ -68,6 +68,13 @@ public class PuzzleRunner {
                     score.setCompletionTime((System.currentTimeMillis() - start) / 1000.0);
                     score.setWrongAnswers(attemptsForPuzzle);
                     scoreDAO.upsertScore(score);
+
+                    Score best = scoreDAO.getBestScore(username, puzzle.getId());
+                    if (best != null) {
+                        ConsolePrinter.printInfo(String.format("Best score: %.2f sec, %d wrong answers", best.getCompletionTime(), best.getWrongAnswers()));
+                    }
+
+                    printLeaderboard(puzzle);
                 }
 
                 return true;
@@ -79,6 +86,18 @@ public class PuzzleRunner {
             ConsolePrinter.printHint(puzzle.getHint());
 
             if (wrongAttempts >= Integer.parseInt(ConfigLoader.get("max.retries"))) return false;
+        }
+    }
+
+    private void printLeaderboard(Puzzle puzzle) {
+        List<Score> top = scoreDAO.getLeaderboard(puzzle.getId(), 5);
+        if (top.isEmpty()) {
+            return;
+        }
+        ConsolePrinter.printInfo("Top players:");
+        for (int i = 0; i < top.size(); i++) {
+            Score s = top.get(i);
+            ConsolePrinter.print(String.format("%d. %s - %.2f sec, %d wrong", i + 1, s.getUsername(), s.getCompletionTime(), s.getWrongAnswers()));
         }
     }
 }
